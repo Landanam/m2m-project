@@ -26,11 +26,36 @@ export class UserEditComponent {
   userUpdated = output<User>();
 
   userForm: FormGroup = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    username: ['', Validators.required],
-    password: ['', Validators.required],
-  });
+    firstName: [
+      '', 
+      [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/)
+      ]
+    ],
+    lastName: [
+      '', 
+      [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/)
+      ]
+    ],
+    username: [
+      '', 
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(20),
+      ]
+    ],
+    password: [
+      '', 
+      [
+        Validators.required,
+        Validators.minLength(6)
+      ]
+    ],
+});
 
   constructor() {
     effect(() => {
