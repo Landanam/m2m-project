@@ -27,21 +27,21 @@ export class UserEditComponent {
 
   userForm: FormGroup = this.fb.group({
     firstName: [
-      '', 
+      '',
       [
         Validators.required,
         Validators.pattern(/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/)
       ]
     ],
     lastName: [
-      '', 
+      '',
       [
         Validators.required,
         Validators.pattern(/^[a-zA-Z]+([ '-][a-zA-Z]+)*$/)
       ]
     ],
     username: [
-      '', 
+      '',
       [
         Validators.required,
         Validators.minLength(3),
@@ -49,13 +49,13 @@ export class UserEditComponent {
       ]
     ],
     password: [
-      '', 
+      '',
       [
         Validators.required,
         Validators.minLength(6)
       ]
     ],
-});
+  });
 
   constructor() {
     effect(() => {
