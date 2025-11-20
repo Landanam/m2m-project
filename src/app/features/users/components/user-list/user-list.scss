@@ -1,0 +1,77 @@
+$table-fixed-widths: (
+  1: 150px, // ID
+  2: auto,  // First Name
+  3: auto,  // Last Name
+  4: 200px  // Created At
+);
+
+$table-arrow-width: 4px;
+$table-arrow-height: 8px;
+$table-sort-default-color: #6c757d;
+$table-sort-active-color: #007bff;
+
+.table {
+  table-layout: fixed;
+  width: 100%;
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @each $index, $width in $table-fixed-widths {
+    th:nth-child(#{$index}),
+    td:nth-child(#{$index}) {
+      width: $width;
+    }
+  }
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.new-user-badge {
+  position: absolute;
+  left: 45px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+}
+
+.sort-icon {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  vertical-align: middle;
+  border-left: $table-arrow-width solid transparent;
+  border-right: $table-arrow-width solid transparent;
+
+  &.sort-none {
+    border-top: $table-arrow-width solid $table-sort-default-color;
+    border-bottom: $table-arrow-width solid $table-sort-default-color;
+  }
+
+  &.sort-asc {
+    border-bottom: $table-arrow-height solid $table-sort-active-color;
+    border-top: none;
+  }
+
+  &.sort-desc {
+    border-top: $table-arrow-height solid $table-sort-active-color;
+    border-bottom: none;
+  }
+}

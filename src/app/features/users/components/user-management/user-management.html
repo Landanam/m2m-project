@@ -1,0 +1,28 @@
+<div class="container-fluid p-4">
+  <h2 class="mb-4">User Management</h2>
+
+  <app-user-search (search)="onSearch($event)" />
+
+  @if (loading()) {
+    <div class="text-center p-5">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  } @else {
+    <app-user-list
+      [users]="paginatedUsers()"
+      (sort)="onSortChange($event)"
+      (userSelect)="onUserSelect($event)"
+    />
+
+    <app-pagination [allItems]="filteredAndSortedUsers()" (pageChange)="onPageChange($event)" />
+  }
+
+  <app-user-edit
+    [visible]="showModal()"
+    [user]="selectedUser()"
+    (close)="onCloseModal()"
+    (userUpdated)="onUserUpdated($event)"
+  />
+</div>
