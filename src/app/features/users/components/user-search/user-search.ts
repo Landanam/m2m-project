@@ -1,5 +1,8 @@
-import { Component, output } from '@angular/core';
+import { Component, output, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-search',
@@ -7,11 +10,24 @@ import { CommonModule } from '@angular/common';
   templateUrl: './user-search.html',
 })
 export class UserSearchComponent {
+  private destroyRef = inject(DestroyRef);
+  private searchSubject = new Subject<string>();
+  
   search = output<string>();
 
-  onSearch(event: Event): void {
+  constructor() {
+    this.searchSubject
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(searchTerm => this.search.emit(searchTerm));
+  }
+
+  protected onSearch(event: Event): void {
     if (event.target instanceof HTMLInputElement) {
-      this.search.emit(event.target.value);
+      this.searchSubject.next(event.target.value);
     }
   }
 }

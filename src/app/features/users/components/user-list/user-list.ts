@@ -19,7 +19,7 @@ export class UserListComponent {
   private readonly sortField = signal<UserTableField>('id');
   private readonly sortDirection = signal<'asc' | 'desc'>('asc');
 
-  readonly onSort = (field: UserTableField): void => {
+  protected readonly onSort = (field: UserTableField): void => {
     if (this.sortField() === field) {
       this.sortDirection.update(dir => (dir === 'asc' ? 'desc' : 'asc'));
     } else {
@@ -29,20 +29,20 @@ export class UserListComponent {
     this.sort.emit({ field: this.sortField(), direction: this.sortDirection() });
   };
 
-  readonly onUserSelect = (user: User): void => {
+  protected readonly onUserSelect = (user: User): void => {
     this.userSelect.emit(user);
   };
 
-  readonly getSortIcon = (field: UserTableField): string => {
+  protected readonly getSortIcon = (field: UserTableField): string => {
     if (this.sortField() !== field) return 'sort-none';
     return this.sortDirection() === 'asc' ? 'sort-asc' : 'sort-desc';
   };
 
-  readonly isNewUser = (user: User): boolean => {
+  protected readonly isNewUser = (user: User): boolean => {
     return this.userPresentation.isNewUser(user);
   };
 
-  readonly formatDate = (dateString: string): string => {
+  protected readonly formatDate = (dateString: string): string => {
     return this.userPresentation.formatDate(dateString);
   };
 }

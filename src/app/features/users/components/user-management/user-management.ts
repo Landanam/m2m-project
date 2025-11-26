@@ -9,7 +9,7 @@ import { UserListComponent } from '../user-list/user-list';
 import { UserSearchComponent } from '../user-search/user-search';
 import { PaginationComponent } from '../../../../shared/components/pagination/pagination';
 
-import { LoggerService } from '../../../../core/services/logger.service';
+
 import { UserBusinessService } from '../../services/user-business.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class UserManagementComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private userBusinessService = inject(UserBusinessService);
 
-  private logger = inject(LoggerService);
+
 
   users = signal<User[]>([]);
   loading = signal(false);
@@ -58,30 +58,30 @@ export class UserManagementComponent implements OnInit {
     this.loadUsers();
   }
 
-  onSearch(searchTerm: string): void {
+  protected onSearch(searchTerm: string): void {
     this.searchTerm.set(searchTerm);
   }
 
-  onSortChange(sortEvent: { field: UserTableField; direction: 'asc' | 'desc' }): void {
+  protected onSortChange(sortEvent: { field: UserTableField; direction: 'asc' | 'desc' }): void {
     this.sortField.set(sortEvent.field);
     this.sortDirection.set(sortEvent.direction);
   }
 
-  onPageChange(paginatedData: User[]): void {
+  protected onPageChange(paginatedData: User[]): void {
     this.paginatedUsers.set(paginatedData);
   }
 
-  onUserSelect(user: User): void {
+  protected onUserSelect(user: User): void {
     this.selectedUser.set(user);
     this.showModal.set(true);
   }
 
-  onCloseModal(): void {
+  protected onCloseModal(): void {
     this.showModal.set(false);
     this.selectedUser.set(null);
   }
 
-  onUserUpdated(updatedUser: User): void {
+  protected onUserUpdated(updatedUser: User): void {
     this.users.update((users) =>
       this.userBusinessService.updateUserInCollection(users, updatedUser),
     );
@@ -97,8 +97,7 @@ export class UserManagementComponent implements OnInit {
           this.users.set(users);
           this.loading.set(false);
         },
-        error: (error: unknown) => {
-          this.logger.error('Failed to load users', error);
+        error: () => {
           this.loading.set(false);
         },
       });

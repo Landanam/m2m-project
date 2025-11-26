@@ -71,12 +71,12 @@ export class UserEditComponent {
     });
   }
 
-  onClose(): void {
+  protected onClose(): void {
     this.userForm.reset();
     this.close.emit();
   }
 
-  onSave(): void {
+  protected onSave(): void {
     const currentUser = this.user();
 
     if (this.userForm.valid && currentUser) {

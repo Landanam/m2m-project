@@ -28,19 +28,19 @@ export class PaginationComponent {
     });
   }
 
-  onPrevious(): void {
+  protected onPrevious(): void {
     if (this.canGoPrevious()) {
       this.currentPage.update((page) => page - 1);
     }
   }
 
-  onNext(): void {
+  protected onNext(): void {
     if (this.canGoNext()) {
       this.currentPage.update((page) => page + 1);
     }
   }
 
-  onItemsPerPageChange(event: Event): void {
+  protected onItemsPerPageChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     this.itemsPerPage.set(Number(target.value));
     this.currentPage.set(0);
